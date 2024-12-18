@@ -26,7 +26,9 @@ export const HoverEffect = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const targetIndex = cardRefs.current.indexOf(entry.target as HTMLDivElement);
+            const targetIndex = cardRefs.current.indexOf(
+              entry.target as HTMLDivElement
+            );
             setVisibleIndex(targetIndex);
           }
         });
@@ -43,9 +45,13 @@ export const HoverEffect = ({
 
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-
   return (
-    <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10", className)}>
+    <div
+      className={cn(
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10",
+        className
+      )}
+    >
       {items.map((item, idx) => (
         <div
           key={item.title}
@@ -57,17 +63,25 @@ export const HoverEffect = ({
           onMouseLeave={() => !isMobile && setHoveredIndex(null)}
         >
           <AnimatePresence>
-            {(!isMobile && hoveredIndex === idx) || (isMobile && visibleIndex === idx) ? (
+            {(!isMobile && hoveredIndex === idx) ||
+            (isMobile && visibleIndex === idx) ? (
               <motion.div
                 className="absolute inset-0 h-full w-full bg-[#18212F] dark:bg-[#6A0DAD]/[0.6] block rounded-3xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, transition: { duration: 0.15 } }}
-                exit={{ opacity: 0, transition: { duration: 0.15, delay: 0.2 } }}
+                exit={{
+                  opacity: 0,
+                  transition: { duration: 0.15, delay: 0.2 },
+                }}
               />
             ) : null}
           </AnimatePresence>
-          <Card imageSrc={item.imageSrc} instagramLink={item.instagramLink} isActive={visibleIndex === idx && isMobile}>
+          <Card
+            imageSrc={item.imageSrc}
+            instagramLink={item.instagramLink}
+            isActive={visibleIndex === idx && isMobile}
+          >
             {item.content ? item.content : <CardTitle>{item.title}</CardTitle>}
             <CardDescription>{item.description}</CardDescription>
           </Card>
@@ -78,7 +92,6 @@ export const HoverEffect = ({
 };
 
 export const Card = ({
-  className,
   children,
   imageSrc,
   instagramLink,
@@ -125,11 +138,31 @@ export const Card = ({
   );
 };
 
-
-export const CardTitle = ({ className, children }: { className?: string; children: React.ReactNode }) => (
-  <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>{children}</h4>
+export const CardTitle = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => (
+  <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    {children}
+  </h4>
 );
 
-export const CardDescription = ({ className, children }: { className?: string; children: React.ReactNode }) => (
-  <p className={cn("mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm", className)}>{children}</p>
+export const CardDescription = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => (
+  <p
+    className={cn(
+      "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
+      className
+    )}
+  >
+    {children}
+  </p>
 );

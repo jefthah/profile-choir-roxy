@@ -5,10 +5,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
 
-export const FloatingNav = ({
-  navItems,
-  className,
-}: {
+export const FloatingNav = ({}: {
   navItems: {
     name: string;
     link: string;
@@ -93,27 +90,26 @@ export const FloatingNav = ({
       <AnimatePresence mode="wait">
         {!scrolling && visible && (
           <motion.div
-          initial={{
-            opacity: 0,
-            y: -100,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          exit={{
-            opacity: 0,
-            y: -100,
-          }}
-          transition={{
-            duration: 0.3,
-            ease: "easeOut",
-          }}
-          className={cn(
-            "hidden md:flex fixed top-10 inset-x-0 mx-auto border border-white rounded-full bg-black shadow-[0px_2px_3px_-1px_rgba(255,255,255,0.5),0px_1px_0px_0px_rgba(255,255,255,0.2),0px_0px_8px_2px_rgba(255,255,255,0.7)] z-[99999] pr-4 pl-4 py-5 px-10 items-center justify-center space-x-6 text-white w-fit"
-          )}
-        >
-        
+            initial={{
+              opacity: 0,
+              y: -100,
+            }}
+            animate={{
+              y: 0,
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+              y: -100,
+            }}
+            transition={{
+              duration: 0.3,
+              ease: "easeOut",
+            }}
+            className={cn(
+              "hidden md:flex fixed top-10 inset-x-0 mx-auto border border-white rounded-full bg-black shadow-[0px_2px_3px_-1px_rgba(255,255,255,0.5),0px_1px_0px_0px_rgba(255,255,255,0.2),0px_0px_8px_2px_rgba(255,255,255,0.7)] z-[99999] pr-4 pl-4 py-5 px-10 items-center justify-center space-x-6 text-white w-fit"
+            )}
+          >
             {[
               { name: "Home", link: "#hero-section" },
               { name: "About", link: "#about" },

@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 
 export const InfiniteMovingCards = ({
   items,
@@ -20,17 +20,15 @@ export const InfiniteMovingCards = ({
   pauseOnHover?: boolean;
   className?: string;
 }) => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
-  const scrollerRef = React.useRef<HTMLUListElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
-    addAnimation();
-  }, []);
-  const [start, setStart] = useState(false);
-  function addAnimation() {
+  // Menggunakan useCallback untuk memastikan stabilitas fungsi
+  const addAnimation = useCallback(() => {
     if (containerRef.current && scrollerRef.current) {
       const scrollerContent = Array.from(scrollerRef.current.children);
 
+      // Duplikasi elemen untuk efek scroll tanpa henti
       scrollerContent.forEach((item) => {
         const duplicatedItem = item.cloneNode(true);
         if (scrollerRef.current) {
@@ -38,53 +36,56 @@ export const InfiniteMovingCards = ({
         }
       });
 
-      getDirection();
-      getSpeed();
-      setStart(true);
+      setDirection();
+      setSpeed();
     }
-  }
-  const getDirection = () => {
+  }, [direction, speed]);
+
+  const setDirection = () => {
     if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
+      const animationDirection =
+        direction === "left" ? "forwards" : "reverse";
+      containerRef.current.style.setProperty(
+        "--animation-direction",
+        animationDirection
+      );
     }
   };
-  const getSpeed = () => {
+
+  const setSpeed = () => {
     if (containerRef.current) {
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "20s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "40s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "80s");
-      }
+      let duration = "40s"; // Default speed (normal)
+      if (speed === "fast") duration = "20s";
+      if (speed === "slow") duration = "80s";
+
+      containerRef.current.style.setProperty(
+        "--animation-duration",
+        duration
+      );
     }
   };
+
+  // Efek useEffect dengan dependency addAnimation
+  useEffect(() => {
+    addAnimation();
+  }, [addAnimation]);
+
   return (
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 w-full overflow-hidden", // Pastikan w-full digunakan
+        "scroller relative z-20 w-full overflow-hidden", // Layout utama
         className
       )}
     >
       <ul
         ref={scrollerRef}
         className={cn(
-          "flex w-max justify-start shrink-0 gap-12 py-4 flex-nowrap animate-scroll", // Tambahkan animate-scroll
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          "flex w-max justify-start shrink-0 gap-12 py-4 flex-nowrap animate-scroll", // Animasi scroll
+          pauseOnHover && "hover:[animation-play-state:paused]" // Pause saat hover
         )}
       >
-        {items.map((item, idx) => (
+        {items.map((item) => (
           <li
             className="min-w-[300px] md:min-w-[400px] max-w-full relative rounded-2xl border border-slate-700 px-6 py-4"
             key={item.name}

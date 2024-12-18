@@ -2,7 +2,7 @@
 import { useScroll, useTransform } from "framer-motion";
 import React from "react";
 import { GoogleGeminiEffect } from "./ui/GoogleGeminiEffect";
-import { section } from "framer-motion/client";
+
 
 export function GoogleGeminiEffectDemo() {
   const ref = React.useRef(null);

@@ -64,8 +64,9 @@ export function SparklesPreview() {
           className="text-center"
         >
           <p className="text-[#CBACF9] text-base sm:text-2lg md:text-2xl lg:text-4xl italic leading-relaxed whitespace-normal break-words overflow-wrap ">
-            "{quote.desc}"
+            &quot;{quote.desc}&quot;
           </p>
+
           <p className="mt-2 text-sm text-white/75 whitespace-normal overflow-wrap">
             - {quote.gospel}
           </p>
